@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $.ajax({
+          url: 'https://api.parse.com/1/classes/Image',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+          	var a = JSON.stringify(data);
+          	var parsedData = JSON.parse(a);
+          	var links = parsedData.results
+          	for (var i = 0; i < links.length; i++) {
+          		for (var j = 0; j < links[i].link.length; j++){
+        			$(".image1").attr("src", links[i].link[j]);
+        			$("#image").append("<img src="+links[i].link[j]+">")
+          		};
+          	};
+          },
+          error: function() { alert('boo!'); },
+          beforeSend: setHeader
+        });
+      });
+      function setHeader(xhr) {
+        xhr.setRequestHeader('X-Parse-Application-Id', 'TrNq2jx9qLRbofrFbYoc9is3QTHgt6PVVsqR0EPb');
+        xhr.setRequestHeader('X-Parse-REST-API-Key', 'lejW5t3haDa6T8OKCtRKxN7AFX5pDcD87m5Kin2E');
+      }
+    </script>
+    <style type="text/css">
+      #image {
+      /* Prevent vertical gaps */
+      line-height: 0;
+      -webkit-column-count: 5;
+      -webkit-column-gap:   0px;
+      -moz-column-count:    5;
+      -moz-column-gap:      0px;
+      column-count:         5;
+      column-gap:           0px;
+      }
+
+    #image img {
+      /* Just in case there are inline attributes */
+      width: 100% !important;
+      height: auto !important;
+    }</style>
+  </head>
+  <body>
+    <div id= "image"></div>
+  </body>
+</html>
